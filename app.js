@@ -74,12 +74,12 @@ app.use((err, req, res, next) => {
 app.get("*", (req, res) => {
     res.status(200).send({ con: false, "msg": "No route with that request!" });
 });
-let migrate = () => {
-    let migrator = require("./migrations/migrator");
-    migrator.backup();
+// let migrate = () => {
+//     let migrator = require("./migrations/migrator");
+//     migrator.backup();
     // migrator.migrate();
-}
-migrate();
+// }
+// migrate();
 
 httpServer.listen(process.env.PORT, () => {console.log("Port is listening on " + process.env.PORT)});
 // module.exports = migrate;
