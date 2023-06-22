@@ -22,6 +22,8 @@ mongoose
         console.log(`Server connected to MongoDB...`);
     })
     .catch(() => console.log(`Server is not connected to MongoDB...`));
+
+// Admin Routers
 const careerRouter = require("./routes/admin/careerRouter");
 const applicationRouter = require("./routes/admin/applicationRouter");
 const roleRouter = require("./routes/admin/roleRouter");
@@ -33,18 +35,23 @@ const weekRouter = require("./routes/admin/weekRouter");
 const studentRouter = require("./routes/admin/studentRouter");
 const lessonRouter = require("./routes/admin/lessonRouter");
 const authRouter = require("./routes/api/authRouter");
+
+// Api Routers
 const careerApi = require("./routes/api/careerApi");
 const courseApi = require("./routes/api/courseApi");
 const enrollmentApi = require("./routes/api/enrollmentApi");
 
-const { validateToken } = require('./helper/validator');
+//Student Router 
+const studentProfileRouter = require("./routes/students/studentProfileRouter");
 
+const { validateToken } = require('./helper/validator');
+// Api Use
 app.use("/auth", authRouter);
 app.use("/careers", careerApi);
 app.use("/courses", courseApi);
 app.use("/enrollments", enrollmentApi);
 
-
+// Admin Use
 app.use("/admin/careers", validateToken(), careerRouter);
 app.use("/admin/batches", validateToken(), batchRouter);
 app.use("/admin/weeks", validateToken(),weekRouter);
@@ -56,6 +63,9 @@ app.use("/admin/roles", roleRouter);
 app.use("/admin/applications", validateToken(),applicationRouter);
 app.use("/admin/enrollments", validateToken(),enrollmentRouter);
 
+// Student Use 
+app.use("/students", validateToken(),studentProfileRouter);
+
 app.use((err, req, res, next) => {
     err.status = err.status || 404;
     res.status(err.status).json({ con: false, "msg": err.message });
@@ -64,12 +74,12 @@ app.use((err, req, res, next) => {
 app.get("*", (req, res) => {
     res.status(200).send({ con: false, "msg": "No route with that request!" });
 });
-// let migrate = () => {
-//     let migrator = require("./migrations/migrator");
-//     migrator.backup();
-//     migrator.migrate();
-// }
-// migrate();
+let migrate = () => {
+    let migrator = require("./migrations/migrator");
+    migrator.backup();
+    // migrator.migrate();
+}
+migrate();
 
 httpServer.listen(process.env.PORT, () => {console.log("Port is listening on " + process.env.PORT)});
 // module.exports = migrate;

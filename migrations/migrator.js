@@ -18,6 +18,12 @@ const backup = async () => {
     await migrator.backup(collection.application, "applications");
     await migrator.backup(collection.user, "users");
     await migrator.backup(collection.career, "careers");
+    await migrator.backup(collection.enrollment, "enrollments");
+    await migrator.backup(collection.student, "students");
+    await migrator.backup(collection.batch, "batches");
+    await migrator.backup(collection.week, "weeks");
+    await migrator.backup(collection.lesson, "lessons");
+    await migrator.backup(collection.access_token, "access_tokens");
 }
 const migrate = async () => {
     await migrator.migrate(collection.user, "users");
@@ -26,6 +32,12 @@ const migrate = async () => {
     await migrator.migrate(collection.application, "applications");
     await migrator.migrate(collection.user, "users");
     await migrator.migrate(collection.career, "careers");
+    await migrator.migrate(collection.enrollment, "enrollments");
+    await migrator.migrate(collection.student, "students");
+    await migrator.migrate(collection.batch, "batches");
+    await migrator.migrate(collection.week, "weeks");
+    await migrator.migrate(collection.lesson, "lessons");
+    await migrator.migrate(collection.access_token, "access_tokens");
 }
 module.exports = {
     backup,
