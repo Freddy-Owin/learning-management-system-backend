@@ -2,6 +2,7 @@ const utils = require("../../helper/utils");
 const Batch = require("../../models/Batch");
 const Week = require("../../models/Week");
 const Lesson = require("../../models/Lesson");
+const Student = require("../../models/Student");
 
 let getToAccept = async(req, res, next) => {
     let data = await Batch.find({course: req.params.course, status: true}).select("name").populate('course');
@@ -16,9 +17,10 @@ let closeBatch = async(req, res, next) => {
     utils.baseResponse(res, data, "Batch has been closed");
 }
 let drop = async(req, res, next) => {
-    let batch = await Batch.findByIdAndDelete(req.params.id);
+    let batch = await Batch.findById(req.params.id);
     await Week.deleteMany({batch: batch._id});
     await Lesson.deleteMany({batch: batch._id});
+    await Student.deleteMany({batch: batch._id});
     utils.baseResponse(res, data, "Batch has been deleted");
 }
 module.exports = {
