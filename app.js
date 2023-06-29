@@ -24,6 +24,7 @@ mongoose
     .catch(() => console.log(`Server is not connected to MongoDB...`));
 
 // Admin Routers
+const dashboardRouter = require("./routes/admin/dashboardRouter");
 const careerRouter = require("./routes/admin/careerRouter");
 const applicationRouter = require("./routes/admin/applicationRouter");
 const roleRouter = require("./routes/admin/roleRouter");
@@ -52,6 +53,7 @@ app.use("/courses", courseApi);
 app.use("/enrollments", enrollmentApi);
 
 // Admin Use
+app.use("/admin", validateToken(), dashboardRouter)
 app.use("/admin/careers", validateToken(), careerRouter);
 app.use("/admin/batches", validateToken(), batchRouter);
 app.use("/admin/weeks", validateToken(),weekRouter);
